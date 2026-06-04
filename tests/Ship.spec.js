@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import Ship from "../Ship.js";
+import Ship from "../entities/Ship.js";
 
 describe("SHip Factory :)", () => {
   test("increases hitCount when hit is invoked", () => {

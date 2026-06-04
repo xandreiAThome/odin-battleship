@@ -1,0 +1,199 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #1a1a2e;
+  color: #eee;
+}
+h1 {
+  margin: 20px 0 4px;
+  font-size: 1.8rem;
+  letter-spacing: 3px;
+  color: #e0e0e0;
+}
+#boards {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+.board-section {
+  text-align: center;
+}
+.board-section h2 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  color: #7f8fa6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.board {
+  display: inline-grid;
+  grid-template-columns: repeat(10, 34px);
+  grid-template-rows: repeat(10, 34px);
+  gap: 1px;
+  background: #2d2d44;
+  border: 2px solid #3d3d5c;
+  border-radius: 4px;
+}
+.cell {
+  width: 34px;
+  height: 34px;
+  background: #1e3a5f;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.cell:not(.hit-ship):hover {
+  background: #2a5a8f;
+}
+.cell.ship-carrier {
+  background: #b8942e;
+}
+.cell.ship-battleship {
+  background: #995a3d;
+}
+.cell.ship-cruiser {
+  background: #4d8a5a;
+}
+.cell.ship-submarine {
+  background: #4d7a8a;
+}
+.cell.ship-destroyer {
+  background: #7a5a8a;
+}
+.cell.hit-ship {
+  box-shadow: inset 0 0 0 2px rgba(255, 25, 0, 0.7);
+  cursor: default;
+}
+.cell.hit-ship:hover {
+  box-shadow: inset 0 0 0 2px rgba(231, 76, 60, 0.7);
+  cursor: default;
+}
+.cell.hit {
+  background: #e74c3c;
+  cursor: default;
+}
+.cell.hit:hover {
+  background: #e74c3c;
+}
+.cell.miss {
+  background: #c8d6e5;
+  cursor: default;
+}
+.cell.miss:hover {
+  background: #c8d6e5;
+}
+.disabled .cell:not(.hit):not(.miss):hover {
+  background: #1e3a5f;
+  cursor: not-allowed;
+}
+#ship-pool {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+.ship-item {
+  padding: 6px 14px;
+  background: #2d2d44;
+  border: 2px solid #3d3d5c;
+  border-radius: 4px;
+  cursor: grab;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  user-select: none;
+  transition: border-color 0.15s, opacity 0.15s;
+}
+.ship-item:hover {
+  border-color: #5a7a9a;
+}
+.ship-item.selected {
+  border-color: #3498db;
+  background: #2a3a5a;
+}
+.ship-item.placed {
+  opacity: 0.35;
+  cursor: default;
+  border-color: #2d2d44;
+}
+.cell.preview-valid {
+  background: rgba(52, 152, 219, 0.5) !important;
+}
+.cell.preview-invalid {
+  background: rgba(231, 76, 60, 0.5) !important;
+}
+#random-place,
+#start-game,
+#reset-place {
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px 4px;
+  font-weight: 600;
+}
+#random-place {
+  background: #5a5a7a;
+  color: #eee;
+}
+#random-place:hover {
+  background: #6a6a8a;
+}
+#reset-place {
+  background: #7a5a3a;
+  color: #eee;
+}
+#reset-place:hover {
+  background: #8a6a4a;
+}
+#start-game {
+  background: #27ae60;
+  color: #fff;
+}
+#start-game:hover {
+  background: #2ecc71;
+}
+.pregame-controls {
+  text-align: center;
+  margin-top: 12px;
+}
+#pregame-instr {
+  font-size: 0.85rem;
+  color: #7f8fa6;
+  margin: 8px 0 0;
+}
+#status {
+  font-size: 1.1rem;
+  margin: 8px 0 12px;
+  min-height: 1.5em;
+  color: #a0b0c0;
+}
+#play-again {
+  padding: 10px 28px;
+  font-size: 1rem;
+  border: none;
+  background: #3498db;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+#play-again:hover {
+  background: #2980b9;
+}

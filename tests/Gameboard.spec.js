@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
-import Gameboard from "../Gameboard";
-import Ship from "../Ship";
+import Gameboard from "../entities/Gameboard.js";
+import Ship from "../entities/Ship.js";
 
 describe("Gameboard", () => {
   test("Initialized gameboard has the right size for the board", () => {
