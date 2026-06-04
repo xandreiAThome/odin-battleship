@@ -2,6 +2,8 @@
 
 Classic Battleship game built with vanilla JavaScript. Place your fleet and battle against a computer opponent.
 
+### [Live here](https://xandreiathome.github.io/odin-battleship/)
+
 ## Ships
 
 | Ship       | Size |
