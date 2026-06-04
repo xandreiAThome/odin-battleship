@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import Ship from "../Ship.js";
 
-describe("Ship Factory", () => {
+describe("SHip Factory :)", () => {
   test("increases hitCount when hit is invoked", () => {
     const ship = Ship("frigate", 3);
 
