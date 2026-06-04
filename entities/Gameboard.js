@@ -14,18 +14,22 @@ export default function Gameboard(size) {
         throw Error("Placement of ship is out of bounds");
 
       for (let i = 0; i < ship.size; i++) {
-        const cell = board[coordY][coordX + i];
-        if (cell.ship) throw Error("Cell is already occupied");
-        cell.ship = ship;
+        if (board[coordY][coordX + i].ship)
+          throw Error("Cell is already occupied");
+      }
+      for (let i = 0; i < ship.size; i++) {
+        board[coordY][coordX + i].ship = ship;
       }
     } else if (direction === "vertical") {
       if (coordY + ship.size > size)
         throw Error("Placement of ship is out of bounds");
 
       for (let i = 0; i < ship.size; i++) {
-        const cell = board[coordY + i][coordX];
-        if (cell.ship) throw Error("Cell is already occupied");
-        cell.ship = ship;
+        if (board[coordY + i][coordX].ship)
+          throw Error("Cell is already occupied");
+      }
+      for (let i = 0; i < ship.size; i++) {
+        board[coordY + i][coordX].ship = ship;
       }
     }
 
