@@ -14,11 +14,48 @@ function startGame() {
   restoreEnemySection();
   placeShipsRandomly(computer.gameboard);
 
-  const attackQueue = shuffle(
+  const huntQueue = shuffle(
     Array.from({ length: BOARD_SIZE }, (_, y) =>
       Array.from({ length: BOARD_SIZE }, (_, x) => [x, y]),
     ).flat(),
   );
+
+  let targetMode = false;
+  let targetOrigin = null;
+  let lastHit = null;
+  let probeDir = null;
+  let remainingDirs = [];
+
+  const inBounds = (x, y) =>
+    x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE;
+
+  const isCellHit = (x, y) => player.gameboard.board[y][x].hit;
+
+  function pickTarget() {
+    if (targetMode) {
+      if (probeDir) {
+        const x = lastHit[0] + probeDir[0];
+        const y = lastHit[1] + probeDir[1];
+        if (inBounds(x, y) && !isCellHit(x, y)) return [x, y];
+        probeDir = null;
+      }
+      while (remainingDirs.length > 0) {
+        const dir = remainingDirs.shift();
+        const x = targetOrigin[0] + dir[0];
+        const y = targetOrigin[1] + dir[1];
+        if (inBounds(x, y) && !isCellHit(x, y)) {
+          probeDir = dir;
+          return [x, y];
+        }
+      }
+      targetMode = false;
+    }
+    while (huntQueue.length > 0) {
+      const cell = huntQueue.pop();
+      if (!isCellHit(cell[0], cell[1])) return cell;
+    }
+    return null;
+  }
 
   let playerTurn = true;
   let gameOver = false;
@@ -48,7 +85,9 @@ function startGame() {
   function computerTurn() {
     if (gameOver) return;
 
-    const [x, y] = attackQueue.pop();
+    const target = pickTarget();
+    if (!target) return;
+    const [x, y] = target;
     const result = player.gameboard.receiveAttack(x, y);
     render();
 
@@ -60,13 +99,32 @@ function startGame() {
     const state = player.gameboard.board[y][x];
 
     if (result !== "miss") {
+      lastHit = [x, y];
+
       if (state.ship.isSunk()) {
+        targetMode = false;
+        targetOrigin = null;
+        lastHit = null;
+        probeDir = null;
+        remainingDirs = [];
         setStatus(`Computer sunk the ${result}! It attacks again.`);
       } else {
+        if (!targetMode) {
+          targetMode = true;
+          targetOrigin = [x, y];
+          remainingDirs = shuffle([
+            [0, -1],
+            [0, 1],
+            [-1, 0],
+            [1, 0],
+          ]);
+          probeDir = null;
+        }
         setStatus(`Computer hit the ${result}! It attacks again.`);
       }
       setTimeout(computerTurn, 1500);
     } else {
+      if (probeDir) probeDir = null;
       playerTurn = true;
       enemySection.classList.remove("disabled");
       setStatus("Miss! Your turn.");
@@ -107,5 +165,7 @@ function startGame() {
 
   render();
   setStatus("Click the enemy board to attack!");
-  document.getElementById("enemy-board").addEventListener("click", handleEnemyClick);
+  document
+    .getElementById("enemy-board")
+    .addEventListener("click", handleEnemyClick);
 }
